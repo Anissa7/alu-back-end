@@ -1,24 +1,29 @@
 #!/usr/bin/python3
-"""Exports data in the CSV format"""
+"""Module"""
 
-if __name__ == "__main__":
+import requests
+import sys
 
-    import csv
-    import requests
-    import sys
+if __name__ == '__main__':
+    employee_id = sys.argv[1]
+    user_url = "https://jsonplaceholder.typicode.com/users/{}" \
+        .format(employee_id)
+    todos_url = "https://jsonplaceholder.typicode.com/users/{}/todos/" \
+        .format(employee_id)
 
-    userId = sys.argv[1]
-    user = requests.get("https://jsonplaceholder.typicode.com/users/{}"
-                        .format(userId))
-    name = user.json().get('username')
-    todos = requests.get('https://jsonplaceholder.typicode.com/todos')
+    user_info = requests.request('GET', user_url).json()
+    todos_info = requests.request('GET', todos_url).json()
 
-    filename = userId + '.csv'
-    with open(filename, mode='w') as f:
-        writer = csv.writer(f, delimiter=',', quotechar='"',
-                            quoting=csv.QUOTE_ALL, lineterminator='\n')
-        for task in todos.json():
-            if task.get('userId') == int(userId):
-                writer.writerow([userId, name, str(task.get('completed')),
-                                 task.get('title')])
-                
+    employee_name = user_info["name"]
+    employee_username = user_info["username"]
+    task_completed = list(filter(lambda obj:
+                                 (obj["completed"] is True), todos_info))
+    number_of_done_tasks = len(task_completed)
+    total_number_of_tasks = len(todos_info)
+
+    with open(str(employee_id) + '.csv', "w") as file:
+        [file.write('"' + str(employee_id) + '",' +
+                    '"' + employee_username + '",' +
+                    '"' + str(task["completed"]) + '",' +
+                    '"' + task["title"] + '",' + "\n")
+         for task in todos_info]
