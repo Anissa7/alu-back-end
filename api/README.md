@@ -1,0 +1,1 @@
+The directory is the result of my basic learning in the APIs so far not to bad at all 
