@@ -10,8 +10,7 @@ import sys
 if __name__ == "__main__":
     """IF SCRIPT IS NOT RUN AS MODULE"""
     response = requests.get('https://jsonplaceholder.typicode.com/users')
-    todo_list = requests.get('https://jsonplaceholder.typicode.com/todos')
-    
+    todo_list = requests.get('https://jsonplaceholder.typicode.com/todos')    
     name = int(sys.argv[1])
 
     def task_title(name):
@@ -23,7 +22,7 @@ if __name__ == "__main__":
         Returns:
             None
         """
-        userId = name 
+        userId = name
         counter = []
         for i in todo_list.json():
             if i['userId'] == userId:
