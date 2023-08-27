@@ -26,4 +26,4 @@ if __name__ == '__main__':
                     '"' + employee_username + '",' +
                     '"' + str(task["completed"]) + '",' +
                     '"' + task["title"] + '",' + "\n")
-         for task in todos_info] 
+         for task in todos_info]
